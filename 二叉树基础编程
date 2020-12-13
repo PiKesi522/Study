@@ -1,0 +1,23 @@
+class Graph:
+    def __init__(self,val):
+        self.node_id = 0;
+        self.node = {self.node_id:val};
+        self.edge = {self.node_id:[]};
+    def insert(self,val,l1,l2): #val是该节点的值，l1是该点所指向的节点，l2是该节点是被和节点所指
+        self.node_id += 1;
+        self.node[self.node_id] = val;
+        for e in l2:
+            self.edge[e].append(self.node_id)
+        self.edge[self.node_id] = l1;
+    def exist_val(self,val):
+        value = self.node.values()
+        return val in value
+    def show(self):
+        print(self.node);
+        print(self.edge);
+
+graph = Graph(2)
+graph.insert(3,[],[0]); #这里的l1并没有指向任何节点，是因为在创建该节点时，他还没有子节点
+graph.insert(5,[0],[1]); #然而在此处，l2将自身设置为l1的子节点，是可以实现的
+graph.insert(4,[],[1]);
+graph.show();
