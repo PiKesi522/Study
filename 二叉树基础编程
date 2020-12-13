@@ -3,7 +3,7 @@ class Graph:
         self.node_id = 0;
         self.node = {self.node_id:val};
         self.edge = {self.node_id:[]};
-    def insert(self,val,l1,l2): #val是该节点的值，l1是该点所指向的节点，l2是该节点是被和节点所指
+    def insert(self,val,l1,l2): #val是该节点的值，l1是该点所指向的子节点，l2是该节点的父节点
         self.node_id += 1;
         self.node[self.node_id] = val;
         for e in l2:
@@ -16,8 +16,22 @@ class Graph:
         print(self.node);
         print(self.edge);
 
+class BinaryTree(Graph):
+    def insert(self,val,parent):
+        if(len(self.edge[parent]) <= 1): #如果父节点的位置小于等于1时候，即父节点还有位置给子节点进行操作时候，执行该操作
+            super().insert(val,[],[parent]) #使用父类的insert方法，即默认子节点不存在，父节点为parent
+        else:
+            print('failed');
+    def show(self):
+        print('节点的信息：',self.node);
+        print('子节点的信息：',self.edge);
+
 graph = Graph(2)
-graph.insert(3,[],[0]); #这里的l1并没有指向任何节点，是因为在创建该节点时，他还没有子节点
-graph.insert(5,[0],[1]); #然而在此处，l2将自身设置为l1的子节点，是可以实现的
-graph.insert(4,[],[1]);
+graph.insert(3,[],[0]);
+graph.insert(5,[0],[1]);
 graph.show();
+
+tree = BinaryTree(2);
+tree.insert(3,0);
+tree.insert(4,0);
+tree.show();
