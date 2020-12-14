@@ -26,12 +26,44 @@ class BinaryTree(Graph):
         print('节点的信息：',self.node);
         print('子节点的信息：',self.edge);
 
-graph = Graph(2)
-graph.insert(3,[],[0]);
-graph.insert(5,[0],[1]);
-graph.show();
+class BST(BinaryTree):
+    def __init__(self,val): #重写初始化
+        super().__init__(val); #使用BinaryTree的初始化，也即Graph的初始化
+        self.edge = {self.node_id : [-1, -1]};
+    def insert(self,val):
+        if(super().exist_val(val) == 0):
+            self.node_id += 1;
+            self.node[self.node_id] = val;
+            f_id,pos = self.find_pos(val,0);
+            self.edge[f_id][pos] = self.node_id;
+            self.edge[self.node_id] = [-1, -1];
+        else:
+            print("该节点记录值已经存在");
+    def find_pos(self,val,node_id):
+        if(val < self.node[node_id]):
+            if(self.edge[node_id][0] == -1):
+                return node_id,0;
+            node_id = self.edge[node_id][0];
+            return self.find_pos(val,node_id);
+        elif(val > self.node[node_id]):
+            if(self.edge[node_id][1] == -1):
+                return node_id,1;
+            node_id = self.edge[node_id][1];
+            return self.find_pos(val,node_id)
 
-tree = BinaryTree(2);
-tree.insert(3,0);
-tree.insert(4,0);
-tree.show();
+#graph = Graph(2)
+#graph.insert(3,[],[0]);
+#graph.insert(5,[0],[1]);
+#graph.show();
+
+#tree = BinaryTree(2);
+#tree.insert(3,0);
+#tree.insert(4,0);
+#tree.show();
+
+bst = BST(5)
+bst.insert(2);
+bst.insert(3);
+bst.insert(1);
+bst.insert(6);
+bst.show();
