@@ -1,0 +1,15 @@
+from turtle import * #引入turtle
+screensize(2400,1800);
+paper = Turtle();
+
+paper.shape('turtle'); #箭头的形状是乌龟
+paper.pencolor('red'); #笔色为红色
+paper.pensize(1); #笔的大小的为1
+
+paper.forward(200);paper.pensize(3);paper.right(270);
+paper.forward(200);paper.pencolor('green');paper.right(180);
+paper.forward(500);
+
+paper.sety(-100);
+paper.setx(-100);
+paper.setpos(0,0); #绝对位置：将箭头直接移动到此处
