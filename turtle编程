@@ -5,6 +5,7 @@ paper = Turtle();
 paper.shape('turtle'); #箭头的形状是乌龟
 paper.pencolor('red'); #笔色为红色
 paper.pensize(1); #笔的大小的为1
+paper.speed('fast');
 
 paper.forward(200);paper.pensize(3);paper.right(270);
 paper.forward(200);paper.pencolor('green');paper.right(180);
@@ -13,3 +14,192 @@ paper.forward(500);
 paper.sety(-100);
 paper.setx(-100);
 paper.setpos(0,0); #绝对位置：将箭头直接移动到此处
+
+--------------------------------------------------------------------------------
+from turtle import * #画聚合⚪
+IN_TIMES = 20;
+TIMES = 10;
+for i in range(TIMES):
+    right(360/TIMES);
+    forward(200/TIMES);
+    for j in range(IN_TIMES):
+        right(360/IN_TIMES);
+        forward(400/IN_TIMES);
+penup();
+setpos(-100,-200);
+write("Click to exit",font = ("Courier",12,"bold"));
+s = Screen();
+s.exitonclick();
+
+--------------------------------------------------------------------------------
+from turtle import * #绘制雪花
+import time
+def draw(s,size): #通过字符串来画画
+    for i in s:
+        if i == 's':
+            t.left(60);
+        elif i == 'f':
+            t.forward(size);
+        else:
+            t.left(-120);
+            
+def koch_curve(n): #递归调用画正三角形
+    if n == 1:
+        return "sftftf";
+    else:
+        return koch_curve(n-1).replace("f","fsftfsf");
+
+for i in range(1,5):
+    time.sleep(3);t.reset();
+    t.penup();t.goto(-200,200);t.pensize(5);t.pendown();t.write(i,font=("Arial",30,"normal")); #左上角画编号
+    t.hideturtle();t.penup();t.goto(-120,-70);t.pendown();
+    s = koch_curve(i);
+    draw(s,size);
+    size = size / 3;
+    
+-------------------------------------------------------------------------------
+from turtle import * #绘制螺旋线
+speed("fastest");
+pensize(2);
+def draw(n):
+    if n == 1:
+        forward(8 * n);
+        left(90);
+    else:
+        draw(n-1);
+        forward(8 * n);
+        left(90);
+draw(50);
+
+-------------------------------------------------------------------------------
+from turtle import *  # 引入turtle
+import time
+
+pensize(2);
+
+s = Screen();
+
+def SetupRiver():
+    pensize(6);
+    right(90);
+    penup();
+    goto(300, 300);
+    pendown();
+    forward(500);
+    penup();
+    goto(-300, 300);
+    pendown();
+    forward(500);
+
+def Init():
+    global boat;
+    setboat("boat");  # 创建一个名字为boat的变量
+    boat = Turtle();  # 这个turtle是一个作为turtle的箭头
+    boat.shape("boat");  # boat的形状是setboat的形状
+
+    global animals;
+    animals = [['狼，鸡，菜'], ['船'], [], True,
+               ['狼，菜'], ['船，鸡'], [], False,
+               ['狼，菜'], ['船'], ['鸡'], True,
+               ['狼'], ['船，菜'], ['鸡'], False,
+               ['狼'], ['船，鸡'], ['菜'], True,
+               ['鸡'], ['船，狼'], ['菜'], False,
+               ['鸡'], ['船'], ['狼，菜'], True,
+               [], ['船，鸡'], ['狼，菜'], False,
+               [], ['船'], ['狼，菜，鸡'], False]
+
+    global  printer,printer1,printer2;
+    printer = Turtle();printer.hideturtle();printer.penup();
+    printer1 = Turtle();printer1.hideturtle();printer1.penup();
+    printer2 = Turtle();printer2.hideturtle();printer2.penup();
+
+
+def animal(t):
+    return animals[4*t:4*t + 4];
+
+def Trick():
+    animal_len = len(animals) // 4;
+    for i in range(animal_len):
+        tmpanimal = animal(i);
+        tracer(False);
+        printer.reset();
+        printer.hideturtle();
+        printer.up();
+        printer.goto(-350,190);
+        if(len(tmpanimal[0]) > 0):
+            printer.write(tmpanimal[0][0], align='center',
+            font = ("Courier", 14, 'bold'));
+        printer.down();
+        printer1.reset();
+        printer1.hideturtle();
+        printer1.up();
+        printer1.goto(350,190);
+        if(len(tmpanimal[2]) > 0):
+            printer1.write(tmpanimal[2][0], align='center',
+            font = ("Courier", 14, "bold"));
+        printer1.down();
+        tracer(True);
+        if(tmpanimal[3] == True):
+            #time.sleep(1);
+            boat.up();
+            boat.goto(-441,-0);
+            printer2.reset();
+            printer2.hideturtle();
+            printer2.up();
+            printer2.goto(-250,190);
+            if(len(tmpanimal[1]) > 0):
+                printer2.write(tmpanimal[1][0], align="center",
+                font = ("Couier", 14, "bold"));
+            #time.sleep(1);
+            tmp = animal(i+1);
+            printer2.clear();
+            printer.clear();
+            if(len(tmp[1])>0):
+                printer2.write(tmp[1][0], align="center",
+                               font = ("Courier", 14, "bold"));
+            if(len(tmp[0])>0):
+                printer.write(tmp[0][0], align='center',
+                              font = ("Courier", 14, "bold"));
+        elif tmpanimal[3] == False:
+            boat.up();
+            boat.goto(0,0);
+            printer2.reset();
+            printer2.hideturtle();
+            printer2.up();
+            printer2.goto(250,190);
+            if(len(tmpanimal[1]) > 0):
+                printer2.write(tmpanimal[1][0], align="center",
+                               font = ("Courier", 14, "bold"));
+            #time.sleep(1);
+            tmp = animal(i+1);
+            printer2.clear();
+            printer1.clear();
+            if(len(tmp[1]) > 0):
+                printer2.write(tmp[1][0],align="center",
+                               font = ("Courier", 14, "bold"));
+            if(len(tmp[2]) > 0):
+                printer1.write(tmp[2][0],align="center",
+                               font = ("Courier", 14, "bold"));
+        #time.sleep(2);
+
+def setboat(name):
+    x = Shape("compound");  # 类型为compound的对象
+    poly1 = ((-229, 270), (-250, 295), (-250, 220),
+             (-325, 220), (-260, 195), (-260, 220),
+             (-250, 220), (-250, 145), (-225, 170), (-225, 270));  # 简单的绘制出boat的样子
+    x.addcomponent(poly1, "white", "black");  # 将poly1所画出的图形作为一个新的shape的内容
+    register_shape(name, x);  # 将这个对象的名字称为name
+
+
+def main():  # 所有进程只在main函数中做修改
+    tracer(False);  # 不显示过程，直接展现结果
+    SetupRiver();
+    Init();
+    tracer(True);
+
+
+if __name__ == "__main__":
+    main();
+    Trick();
+    # mainloop();
+    #s.exitonclick();
