@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+unsigned long long LCM(int n, int a[]){
+    if(n==1)
+        return a[0];
+    else{
+        unsigned long long temp = a[0];
+        for(int i = 1; i <n; i++){
+            int min = temp>a[i]?a[i]:temp;
+            int sFac = 1;
+            for(int j = min; j > 1; j--){
+                if(a[i] % j == 0 && temp % j == 0){
+                    sFac = j;break;
+                }
+            }
+            temp = temp * a[i] / sFac;
+        }
+        return temp;
+    }
+}
+
+int main()
+{
+    int a[101]={0};
+    int n;
+    scanf("%d",&n);
+    for(int i = 0; i < n; i++)
+        scanf("%d",&a[i]);
+    printf("%lld\n",LCM(n,a));    
+    return 0;
+}
