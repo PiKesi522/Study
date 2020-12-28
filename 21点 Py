@@ -1,0 +1,82 @@
+import random
+
+def shuffle(L):
+    for i in range(len(L)):
+        j = random.randint(0, 51)
+        L[i], L[j] = L[j], L[i]
+
+def deal(L):
+    Player = L[0:2]
+    Banker = L[2:4]
+    i = 4
+    #print("当前玩家手牌： ", Player, "点数和为： ", point(Player))
+    #print("当前庄家明牌： ", Banker[1])  # "点数和为： ", point(Banker)  #为什么要显示庄家的点数和？
+    if (point(Player) < 4):
+        opt = "Y"
+    else:
+        opt = "N"
+    # opt = input("请选择是否继续拿牌(Y:拿牌, N:停牌)：")
+    while opt == "Y" or opt == "y":
+        Player.append(L[i])
+        i += 1
+        #print("当前玩家手牌： ", Player, "点数和为： ", point(Player))
+        if (point(Player) <= 21):
+            opt = "Y"
+        else:
+            opt = "N"
+        # opt = input("请选择是否继续拿牌(Y:拿牌, N:停牌)：")
+    while point(Banker) < 17:
+        Banker.append(L[i])
+        i += 1
+    return [Player, Banker]
+
+def point(L: list) -> int:
+    # 计算除去Ace之外的剩余卡牌点数和
+    tempSum, cntAce = 0, 0
+    for i in L:
+        if i != "Ace":
+            tempSum += i
+        else:
+            cntAce += 1
+
+    if cntAce > 0:
+        tempSum += 11 * cntAce  # 先假设Ace都为11
+        while tempSum > 21:
+            tempSum -= 11
+            tempSum += 1  # 将Ace视作1
+            cntAce -= 1
+            if cntAce == 0:
+                return tempSum
+        return tempSum
+    else:
+        return tempSum
+
+def main(cntW):
+    L = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10] * 4
+    shuffle(L)
+    [Player, Banker] = deal(L)
+    #print("最终玩家手牌：", Player)
+    #print("最终玩家手牌点数和为：", point(Player))
+    #print("最终庄家手牌：", Banker)
+    #print("最终庄家手牌点数和为：", point(Banker))
+    if point(Player) > 21:
+        #print("You dead!")
+        cntW += 1
+    elif point(Banker) > 21 or point(Banker) < point(Player):
+        #print("You win!")
+        pass
+    elif point(Banker) == point(Player):
+        #print("It's a draw!")  # 应该是庄家赢
+        pass
+    else:
+        #print("You lost")
+        cntW += 1
+    return cntW
+
+
+cntW = 0
+g = main(cntW)
+for i in range(99999):
+    g = main(g)
+b = g / 100000 * 100
+print("胜率为%.1f" % b,"%")
