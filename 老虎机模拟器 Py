@@ -1,0 +1,42 @@
+import random
+while(1):
+    m = input("给点给点");
+    if m.isdigit():
+        money = int(m);break;
+
+opt = '1';
+while money > 0 and opt == '1':
+    money -= 1;
+    r = random.random();
+    if r < 0.6:prize = 0;
+    elif r < 0.8:prize = 1;
+    elif r < 0.9:prize = 2;
+    else:prize = 3;
+    money += prize;
+    print("你获得了",prize,"元，你现在还有",money,"元");
+    if (money == 0):
+        print("给爷爬");
+        break;
+    opt = input("还玩吗？\nYes(1)  No(0)");
+
+import random
+m = money = 30;
+win = lose = 0;
+for i in range(100):
+    c = 1;
+    money = 30;
+    while(c):
+        money -= 1;
+        r = random.random();
+        if r < 0.6:prize = 0;
+        elif r < 0.8:prize = 1;
+        elif r < 0.9:prize = 2;
+        else:prize = 3;
+        money += prize; 
+        if (money > m):
+        	win += 1;
+            c = 0;
+        if (money == 0):
+            #print("给爷爬");
+            lose += 1;
+            c = 0;
