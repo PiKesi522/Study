@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+
+int cons_sum = 0;
+int cons_sum2 = 0;
+
+int da_biao[8][9] =
+        {{1,2,3,4,5,6,7,8,9},
+         {3,5,7,9,2,4,6,8,1},
+         {6,9,3,6,9,3,6,9,3},
+         {1,5,9,4,8,3,7,2,6},
+         {6,2,7,3,8,4,9,5,2},
+         {3,9,6,3,9,6,3,9,6},
+         {1,8,6,4,2,9,7,5,3},
+         {9,1,2,3,4,5,6,7,8}};
+
+void sole_sum(int sum)
+{
+    cons_sum = 0;
+    while(sum)
+    {
+        cons_sum += sum % 10;
+        sum = (sum - sum % 10) / 10;
+    }
+    sum = 0;
+    if(cons_sum >= 10)
+    {
+        sole_sum(cons_sum);
+    }
+    return;
+}
+
+void sole_sum2(int sum)
+{
+    cons_sum2 = 0;
+    while(sum)
+    {
+        cons_sum2 += sum % 10;
+        sum = (sum - sum % 10) / 10;
+    }
+    sum = 0;
+    if(cons_sum2 >= 10)
+    {
+        sole_sum(cons_sum2);
+    }
+    return;
+}
+
+int main()
+{
+    int length;
+    scanf("%d",&length);
+    //或许通过小数字的判断可以加快判断
+    int list[length];
+    for(int i=0;i<length;i++)
+    {
+        scanf("%d", &list[i]);
+    }
+    if(length == 1)
+    {
+        printf("%d",list[0]);
+        return 0;
+    }
+    int sum = 0;
+    for(int i=0;i<length;i++)
+    {
+        sum += list[i];
+    }
+    sole_sum(sum);
+    sum = 0;
+    for(int i=0;i<length;i++)
+    {
+        sum += i;
+    }
+    sole_sum2(sum);
+    if(cons_sum2 == cons_sum)
+    {
+        int j = 0;
+        printf("%d %d",j,j+length-1);
+        return 0;
+    }
+    //到此为止，列表输入变为单个数字
+    //此时有两个关键字，一个是列表长度length，还有一个是单位数字cons_sum
+    //这两个变量都不会改变
+    int n9 = 0;
+    int temp_length = length;
+    //原列表长度每增加9，所需要的加和不变
+    while(temp_length >= 9)
+    {
+        temp_length -= 9;
+        n9++;
+    }
+    if(temp_length == 0)
+    {
+        printf("-1");
+        return 0;
+    }
+    else
+    {
+        for(int i=0;i<9;i++)
+        {
+            if(cons_sum == da_biao[temp_length-1][i-1])
+            {
+                int cons = 0;
+                for(int j=0;j<i;j++)
+                {
+                    cons *= 10;
+                    cons ++;
+                }
+                printf("%d %d",cons,cons+length-1);
+                return 0;
+            }
+        }
+        printf("-1");
+        return 0;
+    }
+    return 0;
+}
