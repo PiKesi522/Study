@@ -1,0 +1,42 @@
+#整个主程序只有一个函数是do_add,所以先执行do_add,并将a,b的地址传入方程内
+#do_add函数内部将c作为全局变量传入，c = a + b使得全局变量中的c被改变，变为5，再执行do_sub函数
+#do_sub函数内部a = c; b = 1.内部变量c = （全局变量中的c）5 - 1 = 4；并且地址被重新导向，不再使用全局变量c
+#接着内部c执行do_mul。do_mul函数中先把c声明为最外层的全局变量c，再执行c = a * b = 4 * 4 =16,并且打印
+#接着返回c = 16到do_sub。此时所有的程序内所有的c都为16.接着执行do_div函数，传入a = c = 16,b = 2
+#在do_div中c 为局部变量，c = a / b = 16 / 2 = 8.0，转为浮点数类型,打印8.0
+#接着do_sub中的c 接受了来自do_div中的return返回8.0的地址，此时do_sub中的c也被重新定向为8.0，打印8.0
+#再把这个c的地址return给了do_add函数，此时do_add函数中的c也指向了8.0，打印8.0。
+#由于do_add中的c为全局变量，c被指向了8.0,打印8.0
+
+
+def do_div(a, b):
+    c = a / b;
+    print(c);
+    return c;
+def do_mul(a, b):
+    global c;
+    c = a * b;
+    print(c);
+    return c;
+def do_sub(a, b):
+    c = a - b;
+    c = do_mul(c, c);
+    c = do_div(c, 2);
+    print(c);
+    return c;
+def do_add(a, b):
+    global c;
+    c = a + b;
+    c = do_sub(c, 1);
+    print(c);
+a = 3;
+b = 2;
+c = 1;
+do_add(a, b);
+print(c);
+
+16
+8.0
+8.0
+8.0
+8.0
