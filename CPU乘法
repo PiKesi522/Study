@@ -1,0 +1,69 @@
+N = int(input(""));
+a = int(input(""));b = int(input(""));
+def Mult(a,b,N):
+    range_min = -1 * (2 ** (N - 1));
+    range_max = 2 ** (N - 1) - 1;
+    if (a > range_max or a < range_min or b > range_max or b < range_min):
+        print("溢出错误");
+    elif (a * b == 0):
+        print("0");
+    else:
+        del range_max;del range_min;
+        fu = 0;
+        if (a * b > 0):
+            a = abs(a);
+            b = abs(b);
+        const_a = a;const_b = b;
+        if (const_b < 0 or const_a < 0):
+            a, b = b, a;
+            fu = 1;
+        la = [];lb = [];
+        if (a < 0):
+            a = 2 ** N - abs(a);
+        if (b < 0):
+            b = 2 ** N - abs(b);
+        for i in range(N):
+            la.append(a % 2);
+            a = (a - (a % 2)) // 2;
+            lb.append(b % 2);
+            b = (b - (b % 2)) // 2;
+        del a;del b;
+
+        la.reverse();
+        lb.reverse();
+
+        num_a = 0;
+        for i in range(12):
+            num_a = num_a * 10;
+            num_a += la[i];
+        num_b = 0;
+        for i in range(12):
+            num_b = num_b * 10;
+            num_b += lb[i];
+
+        lb.reverse();
+        la.reverse();
+        lc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        h = 0;
+        for i in range(12):
+            if (lb[i] == 1):
+                for j in range(12):
+                    lc[j + i] += la[j];
+                    if (lc[j + i] >= 2):
+                        lc[j + i] -= 2;
+                        lc[j + i + 1] += 1;
+            else:
+                continue;
+        lc.reverse();
+        lc = lc[12:]
+        if(lc[0] != fu):
+            print("溢出错误");
+        else:
+            sum_c = 0;
+            for i in range(0, 12, 1):
+                sum_c = sum_c * 2 + lc[i];
+            if(fu == 1):
+                sum_c -= 2**N;
+            print(sum_c);
+
+Mult(a,b,N);
