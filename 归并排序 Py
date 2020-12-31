@@ -1,0 +1,27 @@
+def merge(L1,L2):
+    if len(L1) == 0:
+        return(L2)
+    if len(L2) == 0:
+        return(L1)
+    if(L1[0] < L2[0]):
+        return ([L1[0]] + merge(L1[1:],L2))
+    else:
+        return ([L2[0]] + merge(L1,L2[1:]))
+
+#X = merge([1,4,18],[10]);
+#print(X);
+
+def msort(L):
+    k = len(L)
+    if k == 0:return (L)
+    if k == 1:return (L)
+    X1 = L[:k//2];
+    X2 = L[k//2:];
+    print("X1 = ",X1,"X2 = ",X2);
+    X1 = msort(X1);
+    X2 = msort(X2);
+    return (merge(X1,X2));
+
+l = [1,1,4,5,1,4]
+l = msort(l)
+print(l)
